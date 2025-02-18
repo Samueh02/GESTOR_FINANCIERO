@@ -5,24 +5,37 @@ const Budgets = () => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
 
+  // Cargar presupuestos desde localStorage solo en la primera carga
   useEffect(() => {
-    const savedBudgets = JSON.parse(localStorage.getItem("budgets")) || [];
-    setBudgets(savedBudgets);
+    try {
+      const savedBudgets = JSON.parse(localStorage.getItem("budgets")) || [];
+      setBudgets(savedBudgets);
+    } catch (error) {
+      console.error("Error al cargar desde localStorage:", error);
+      setBudgets([]);
+    }
   }, []);
 
+  // Guardar en localStorage cuando budgets cambie (evita la primera renderización)
   useEffect(() => {
-    localStorage.setItem("budgets", JSON.stringify(budgets));
+    if (budgets.length > 0) {
+      localStorage.setItem("budgets", JSON.stringify(budgets));
+    }
   }, [budgets]);
 
   const addBudget = () => {
-    if (name.trim() === "" || amount <= 0) {
+    if (!name.trim() || amount <= 0 || isNaN(amount)) {
       alert("Por favor, introduce un nombre y una cantidad válida.");
       return;
     }
 
-    const newBudget = { id: Date.now(), name, amount: parseFloat(amount) };
-    setBudgets([...budgets, newBudget]);
+    const newBudget = {
+      id: crypto.randomUUID(), // Más seguro que Date.now()
+      name,
+      amount: parseFloat(amount),
+    };
 
+    setBudgets((prev) => [...prev, newBudget]);
     setName("");
     setAmount("");
   };
@@ -30,6 +43,11 @@ const Budgets = () => {
   const deleteBudget = (id) => {
     const updatedBudgets = budgets.filter((budget) => budget.id !== id);
     setBudgets(updatedBudgets);
+
+    // Si se eliminan todos, limpiar `localStorage` para evitar errores
+    if (updatedBudgets.length === 0) {
+      localStorage.removeItem("budgets");
+    }
   };
 
   return (

@@ -25,15 +25,15 @@ const Reports = () => {
       <div className="mt-5 bg-white p-5 shadow-md rounded-lg">
         <h3 className="text-lg font-semibold">Tendencia de Ingresos y Gastos</h3>
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={data}>
-            <XAxis dataKey="month" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="gasto" stroke="#ff4444" strokeWidth={2} name="Gastos" />
-            <Line type="monotone" dataKey="ingreso" stroke="#44ff44" strokeWidth={2} name="Ingresos" />
-          </LineChart>
+            <LineChart data={data}>
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="gasto" stroke="#ff4444" strokeWidth={2} />
+                <Line type="monotone" dataKey="ingreso" stroke="#44ff44" strokeWidth={2} />
+            </LineChart>
         </ResponsiveContainer>
+
       </div>
     </div>
   );

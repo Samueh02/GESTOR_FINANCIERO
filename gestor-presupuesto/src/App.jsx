@@ -14,13 +14,13 @@ const App = () => {
 
   return (
     <Router>
-      <div className="flex h-screen">
+      <div className="flex h-screen relative">
         {/* Botón de menú en pantallas pequeñas */}
         <button
-          className="absolute top-4 left-4 md:hidden bg-gray-900 text-white p-2 rounded-full"
+          className="fixed top-4 left-4 z-50 md:hidden bg-gray-900 text-white p-2 rounded-full shadow-lg"
           onClick={toggleSidebar}
         >
-          <FiMenu size={20} />
+          <FiMenu size={24} />
         </button>
 
         {/* Sidebar */}
@@ -29,11 +29,11 @@ const App = () => {
         {/* Contenido Principal */}
         <div
           className={`flex-1 flex flex-col bg-gray-100 transition-all duration-300 ${
-            isOpen ? "ml-64" : "ml-0"
-          } md:ml-64`}
+            isOpen ? "ml-0 md:ml-64" : "ml-0"
+          }`}
         >
           <Navbar />
-          <main className="p-5 flex-1">
+          <main className="p-5 flex-1 w-full">
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/presupuestos" element={<Budgets />} />
